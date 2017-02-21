@@ -21,6 +21,7 @@
 
 ### 인스타그램의 각종 endpoint api를 이용해서 자유롭게 앱을 꾸며 보자
 인스타그램 api를 이용한다면 그 어떤 것을 만들던지 팀의 자유.
+- 인스타그램 api 사용을 좀더 편하게 도와줄 [InstagramKit](https://github.com/shyambhat/InstagramKit)
 - 우리가 http 통신에 사용할 통신모듈: [Alamofire](https://github.com/Alamofire/Alamofire)
 - RESTful에 대해서도 간단히 알아보기를 원한다면: http://meetup.toast.com/posts/92
 

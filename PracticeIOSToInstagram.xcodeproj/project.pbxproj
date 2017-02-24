@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A50DDA2E1E601933006E47B5 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50DDA2D1E601933006E47B5 /* TableViewController.swift */; };
 		A57174AF1E40E6430076A55E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57174AE1E40E6430076A55E /* AppDelegate.swift */; };
-		A57174B11E40E6430076A55E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57174B01E40E6430076A55E /* ViewController.swift */; };
 		A57174B41E40E6430076A55E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A57174B21E40E6430076A55E /* Main.storyboard */; };
 		A57174B61E40E6430076A55E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A57174B51E40E6430076A55E /* Assets.xcassets */; };
 		A57174B91E40E6430076A55E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A57174B71E40E6430076A55E /* LaunchScreen.storyboard */; };
@@ -18,9 +18,9 @@
 /* Begin PBXFileReference section */
 		276A50B888A35E17BD39FE25 /* Pods_PracticeIOSToInstagram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PracticeIOSToInstagram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8924415E5C72054B2DB66427 /* Pods-PracticeIOSToInstagram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PracticeIOSToInstagram.release.xcconfig"; path = "Pods/Target Support Files/Pods-PracticeIOSToInstagram/Pods-PracticeIOSToInstagram.release.xcconfig"; sourceTree = "<group>"; };
+		A50DDA2D1E601933006E47B5 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		A57174AB1E40E6420076A55E /* PracticeIOSToInstagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PracticeIOSToInstagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A57174AE1E40E6430076A55E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A57174B01E40E6430076A55E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A57174B31E40E6430076A55E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A57174B51E40E6430076A55E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A57174B81E40E6430076A55E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -62,7 +62,7 @@
 			isa = PBXGroup;
 			children = (
 				A57174AE1E40E6430076A55E /* AppDelegate.swift */,
-				A57174B01E40E6430076A55E /* ViewController.swift */,
+				A50DDA2D1E601933006E47B5 /* TableViewController.swift */,
 				A57174B21E40E6430076A55E /* Main.storyboard */,
 				A57174B51E40E6430076A55E /* Assets.xcassets */,
 				A57174B71E40E6430076A55E /* LaunchScreen.storyboard */,
@@ -211,7 +211,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A57174B11E40E6430076A55E /* ViewController.swift in Sources */,
+				A50DDA2E1E601933006E47B5 /* TableViewController.swift in Sources */,
 				A57174AF1E40E6430076A55E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -376,6 +376,7 @@
 				A57174BF1E40E6430076A55E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

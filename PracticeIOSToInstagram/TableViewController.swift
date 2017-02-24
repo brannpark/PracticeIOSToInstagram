@@ -8,37 +8,46 @@
 
 import UIKit
 import Alamofire
+import InstagramKit
+import AFNetworking
 
 class TableViewController: UITableViewController {
     
-    var data: [[String: Any]] = []
+    var data: [InstagramMedia] = []
+    let dateFormatter = DateFormatter()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        dateFormatter.dateFormat = "yy/MM/dd"
+        dateFormatter.timeZone = TimeZone(identifier: "Seoul/Asia")
+        tableView.tableFooterView = UIView()
+        tableView.rowHeight = UITableViewAutomaticDimension
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        // FIXME: 초간단 alamofire 이용해서 api 호출 하는 예시
-        Alamofire.request("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22nome%2C%20ak%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys").responseJSON { [weak self] response in
-            
-            if let json = response.result.value as? [String: Any] {
-                if let query = json["query"] as? [String: Any] {
-                    if let results = query["results"] as? [String: Any] {
-                        if let channel = results["channel"] as? [String: Any] {
-                            if let item = channel["item"] as? [String: Any] {
-                                if let forecast = item["forecast"] as? [[String : Any]] {
-                                    self?.data = forecast
-                                    self?.tableView.reloadData()
-                                }
-                            }
-                        }
-                    }
+        if let accessToken = InstagramEngine.shared().accessToken,
+            accessToken.characters.count > 0 && InstagramEngine.shared().isSessionValid() {
+            //37.498300, 127.027788
+            print(accessToken)
+            InstagramEngine.shared().getMediaAtLocation(CLLocationCoordinate2DMake(37.4983, 127.0277), count: 100, maxId: nil, distance: 3000, withSuccess: { [weak self] ( items, paginationInfo) in
+                
+                print(items)
+                DispatchQueue.global(qos: .default).async { [weak self] in
+                    let filteredItems = self?.filteringByGourmet(items)
+                    self?.displayItems(filteredItems)
                 }
-            }
+                
+                }, failure: { [weak self] (err, code) in
+                    print(err)
+                    print(code)
+            })
+            
+        } else {
+            performSegue(withIdentifier: "loginIdentifier", sender: nil)
         }
     }
 
@@ -46,6 +55,21 @@ class TableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
+    func displayItems(_ items: [InstagramMedia]?) {
+        DispatchQueue.main.async { [weak self] in
+//            self?.tableView.isHidden = false
+            self?.data = items ?? []
+            self?.tableView.reloadData()
+        }
+    }
+    
+    
+    func filteringByGourmet(_ items: [InstagramMedia]) -> [InstagramMedia] {
+        return items.filter { ($0.caption?.text.contains("#맛집"))! }
+    }
+    
 
     // MARK: - Table view data source
 
@@ -53,18 +77,42 @@ class TableViewController: UITableViewController {
 //        // #warning Incomplete implementation, return the number of sections
 //        return 0
 //    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0
+    }
 
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 350
+    }
+    
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return data.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        let forecast = data[indexPath.row]
-        cell.textLabel?.text = "\(forecast["text"]!) : \(forecast["date"]!)"
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as! IngMuckCell
+        cell.userImageView.layer.borderColor = UIColor.black.cgColor
+        
+        
+        let item = data[indexPath.row]
+        let ratio = cell.photoImageView.frame.width / item.standardResolutionImageFrameSize.width
+        
+        cell.userLabel.text = item.user.fullName
+        cell.dateLabel.text = "@" + (item.locationName ?? "Anywhere") + " " + dateFormatter.string(from: item.createdDate)
+        cell.captionLabel.text = item.caption?.text
+        cell.photoContainerView.constraints.first?.constant = ratio * item.standardResolutionImageFrameSize.height
+        
+        cell.photoImageView.setImageWith(item.standardResolutionImageURL)
+        
+        if let userImageUrl = item.user.profilePictureURL {
+            cell.userImageView.setImageWith(userImageUrl)
+        } else {
+            cell.userImageView.image = nil
+        }
+        
         return cell
     }
 
